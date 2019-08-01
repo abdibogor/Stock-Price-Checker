@@ -1,0 +1,194 @@
+body{
+border:1px solid black;
+border-radius:20px;
+text-align:center;
+height:auto;
+padding:0px;
+}
+header{
+background:rgba(133, 187, 101,0.5);
+border-radius:20px 20px 0px 0px;
+margin-top:-22px;
+}
+.checkBox{
+	-webkit-appearance: none;
+	background-color: #fafafa;
+	border: 1px solid grey;
+  box-shadow: 0px 0px 20px rgba(102, 204, 255,1);
+	padding: 9px;
+	border-radius:50%;
+	display: inline-block;
+	position: relative;
+  outline:none;
+  margin-bottom:-4px; 
+  cursor: pointer;
+}
+.checkBox:hover{
+background:rgba(1,255,1,0.3);
+  box-shadow: 0px 0px 20px rgba(1,255,1,0.6);
+}
+.checkBox:active, .checkBox:checked:active {
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+}
+
+.checkBox:checked {
+	background-color: mediumSeaGreen;
+	border: 1px solid #adb8c0;
+  box-shadow: 0px 0px 20px mediumSeaGreen;
+  color: #99a1a7;
+}
+.checkBoxSpan{
+font-size:20px;
+}
+.stockInput{
+border:1px solid grey;
+border-radius: 15px 15px 15px 15px;
+outline:none;
+background:rgba(204, 224, 255,0.4);
+height:20px;
+min-width:200px;
+width:auto;
+max-width:600px;
+padding:6px;
+margin-bottom:10px;
+}
+.stockInput:focus{
+  box-shadow: 0px 0px 20px rgba(104, 190, 255,1);
+}
+.submitStock{
+border:1px solid grey;
+outline:none;
+background:white;
+box-shadow: 0px 0px 20px rgba(102, 180, 255,0.4);
+margin:10px;
+width:100px;
+height:36px;
+border-radius: 15px 15px 15px 15px;
+cursor: pointer;
+}
+.submitStock:hover{
+  box-shadow: 0px 0px 40px rgba(152, 155, 255,1);
+  background:rgba(102, 180, 255,0.5);
+}
+#oneStock{
+/* border:1px solid salmon; */
+border-radius:30px 30px 30px 30px;
+background:rgba(133, 187, 101,0.3);
+margin:5px auto 5px auto;
+padding:10px 0px 0px 0px;
+width:800px;
+font-size:20px;
+font-family:"Allerta stencil";
+
+}
+#twoStock{
+/* border:1px solid blue; */
+border-radius:30px 30px 30px 30px;
+background:rgba(133, 187, 101,0.4);
+margin:5px auto 5px auto;
+width:800px;
+padding:10px 0px 0px 0px;
+font-size:20px;
+font-family:"Allerta stencil";
+}
+#jsonResult{
+cursor: default;
+height:0px;
+border-radius:30px 30px 30px 30px;
+background:rgba(133, 187, 101,0.5);
+
+padding:10px;
+position:relative;
+z-index:-1;
+opacity:0;
+transition-duration: 1s;
+transform: translate(0%, -175px); 
+width:800px;
+margin:20px auto 5px auto;
+}
+.stockName{
+/* border:1px solid black; */
+background:rgba(255,255,255,1);
+border-radius:10px 10px 10px 10px;
+padding:5px;
+width:auto;
+display:block;
+font-size:30px;
+margin:5px;
+}
+.stockName1{
+background:rgba(255,255,255,1);
+border-radius:10px 10px 10px 10px;
+padding:5px;
+width:auto;
+display:inline-block;
+font-size:30px;
+margin:5px;
+}
+  .stockName1_1{
+display:inline-block;
+}
+
+.boxContainer{
+/* border:3px solid red; */
+}
+.resultBox{
+/* border:1px solid black; */
+width:30%;
+display:inline-block;
+height:auto;
+line-height:20px;
+}
+.middleBox{
+/* border:1px solid green; */
+width:30%;
+display:inline-block;
+height:auto;
+font-size:30px;
+line-height:20px;
+}
+footer{
+background:rgba(133, 187, 101,0.5);
+border-radius:0px 0px 20px 20px;
+font-size:20px;
+line-height:30px;
+}
+@media screen and (max-width:850px){
+#oneStock{
+/* border:1px solid salmon; */
+border-radius:30px 30px 30px 30px;
+background:rgba(133, 187, 101,0.3);
+margin:5px auto 5px auto;
+width:250px;
+
+}
+#twoStock{
+/* border:1px solid blue; */
+border-radius:30px 30px 30px 30px;
+background:rgba(133, 187, 101,0.4);
+margin:5px auto 5px auto;
+width:250px;
+
+}
+#jsonResult{
+width:250px;
+margin:15px auto 15px auto;
+}
+.stockName{
+font-size:15px;
+height:25px;
+}
+  .relLikes{
+  font-size:15px;
+
+  }
+  .tickerImage{
+  width:50px;
+  height:20px;
+  font-size:10px;
+  }
+  .stockName1_1{
+display:block;
+font-size:10px;
+}
+}

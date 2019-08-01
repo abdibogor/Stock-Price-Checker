@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Welcome to Stock Checker!</title>
+    <meta name="description" content="A cool thing made with HyperDev">
+    <link id="favicon" rel="icon" href="https://i.postimg.cc/RZ5MgRJ5/dollar-sign-PNG19.png" type="image/x-icon">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Allerta+Stencil" />
+    <link rel="stylesheet" href="./public/style.css">
+  </head>
+  <body>
+    <header>
+      <h1>
+        <span style="color:blue">C</span><span style="color:mediumSeaGreen">h</span><span style="color:salmon">a</span><span style="color:green">r</span><span style="color:red">m</span><span style="color:magenta">i</span><span style="color:orange">n</span><span style="color:dodgerblue">g</span> 🌿<br/> Nasdaq Stock Price Checker
+      </h1>
+    </header>
+<!--     <div id="userstories" style="margin-left: 5%; margin-top: 5%">
+      <h3>User Stories</h3>
+      <ol>
+        <li>Set the content security policies to only allow loading of scripts and css from your server.</li>
+        <li>I can <b>GET</b> <code>/api/stock-prices</code> with form data containing a Nasdaq <i>stock</i> ticker and recieve back an object <i>stockData</i>.</li>
+        <li>In <i>stockData</i>, I can see the <i>stock</i>(string, the ticker), <i>price</i>(decimal in string format), and <i>likes</i>(int).</li>
+        <li>I can also pass along field <i>like</i> as <b>true</b>(boolean) to have my like added to the stock(s). Only 1 like per ip should be accepted.</li>
+        <li>If I pass along 2 stocks, the return object will be an array with both stock's info but instead of <i>likes</i>, it will display <i>rel_likes</i>(the difference between the likes on both) on both.</li>
+        <li>A good way to receive current price is the following external API(replacing 'GOOG' with your stock): <code>https://finance.google.com/finance/info?q=NASDAQ%3aGOOG</code></li>
+        <li>All 5 functional tests are complete and passing.</li>
+      </ol>
+      <h3>Example usage:</h3>
+      <code>/api/stock-prices?stock=goog</code><br>
+      <code>/api/stock-prices?stock=goog&amp;like=true</code><br>
+      <code>/api/stock-prices?stock=goog&amp;stock=msft</code><br>
+      <code>/api/stock-prices?stock=goog&amp;stock=msft&amp;like=true</code><br>
+      <h3>Example return:</h3>
+      <code>{"stockData":{"stock":"GOOG","price":"786.90","likes":1}}</code><br>
+      <code>{"stockData":[{"stock":"MSFT","price":"62.30","rel_likes":-1},{"stock":"GOOG","price":"786.90","rel_likes":1}]}</code>
+    </div>
+    <hr style="margin: 50px"> -->
+<!--     <div id="testui"> -->
+<!--       <h2 style="text-align: left">Front-End:</h2> -->
+      <div id="oneStock">
+      <h3>Get 💲 and 👍</h3>
+      <form id="testForm2" class="border">
+        <input type="text" name="stock" placeholder="goog/aapl/msft/fb/myl/amzn/nktr/symc" class="stockInput" required="true">
+        <div><label class="checkBoxSpan" for="singleLike" title="Only one Like per IP Accepted" style="cursor:pointer">👍 </label><input type="checkbox" id="singleLike" name="like" value="true" class="checkBox"></div>
+        <button type="submit" class="submitStock">Get Price!</button>
+      </form>
+      </div>
+
+      <div id="twoStock">      
+      <h3>Compare 💲 and 👍</h3>
+      <form id="testForm" class="border">
+        <input type="text" name="stock" placeholder="goog" class="stockInput" required="true">
+        <input type="text" name="stock" placeholder="msft" class="stockInput" required="true">
+        <div><label class="checkBoxSpan" for="dualLike" title="Only one Like per IP Accepted" style="cursor:pointer">👍BOTH </label><input type="checkbox" id="dualLike" name="like" value="true" class="checkBox" ></div>
+        <button type="submit" class="submitStock">Get Price!</button>
+      </form>
+      </div>
+      
+      <div id="jsonResult">
+      </div>
+<!--     </div> -->
+    <hr >
+    <footer>Made with 💻 & 📈 by <a href="https://twitter.com/Victor01684891" target="_blank">Victor Cojocaru</a>
+     <br/>Data provided for free by <a href="https://iextrading.com/developer" target="_blank"> IEX</a>. View <a href="https://iextrading.com/api-exhibit-a/" target="_blank">IEX’s Terms of Use</a>.
+    </footer>
+    <!-- Your web-app is https, so your scripts need to be too -->
+    
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"
+            integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
+            crossorigin="anonymous"></script>
+    <script>
+      $(function() {
+        $('#testForm').submit(function(e) {
+          $.ajax({
+            url: '/api/stock-prices',
+            type: 'get',
+            data: $('#testForm').serialize(),
+            success: function(data) {
+              let message=`
+<div class="boxContainer">
+  <div class="resultBox">
+    <div class="stockName">${getStockSymbol(data.stockData[0].stock)}</div> <div class="stockName">${data.stockData[0].price}</div> <div class="stockName">${data.stockData[0].rel_likes}</div>
+  </div>
+  <div class="middleBox"><div class="stockName">Stock</div><div class="stockName">Price</div><div class="stockName relLikes" title="Relative likes displayed">Likes</div></div>
+<div class="resultBox">
+<div class="stockName">${getStockSymbol(data.stockData[1].stock)}</div><div class="stockName">${data.stockData[1].price}</div><div class="stockName" >${data.stockData[1].rel_likes}</div>
+</div>
+</div>`;
+              $('#jsonResult').css({"zIndex":"1","transform":"translate(0%,0px)","opacity":"1","height":"auto"});
+              $('#jsonResult').html(message);
+
+
+            }
+          });
+          e.preventDefault();
+        });
+         $('#testForm2').submit(function(e) {
+          $.ajax({
+            url: '/api/stock-prices',
+            type: 'get',
+            data: $('#testForm2').serialize(),
+            success: function(data) {
+              let message=`<h3><div class="stockName1_1">Stock: <div class="stockName1">${getStockSymbol(data.stockData.stock)}</div></div><div class="stockName1_1"> Price: <div class="stockName1">${data.stockData.price}</div></div><div class="stockName1_1"> Likes: <div class="stockName1">${data.stockData.likes}</div></div></h3>`
+              // $('#jsonResult').text(JSON.stringify(data));
+              $('#jsonResult').css({"zIndex":"1","transform":"translate(0%,0px)","opacity":"1","height":"auto"});
+              $('#jsonResult').html(message);
+               // console.log(data);
+            }
+          });
+          e.preventDefault();
+        });
+      $(".stockInput").on('focus',function(){
+      $('#jsonResult').css({"zIndex":"-1","transform":"translate(0%,-175px)","opacity":"0","height":"0px"});
+                          })
+      function getStockSymbol(stockTicker){
+      let stock=stockTicker;
+         switch(stock){
+                case "goog": stock=`<span style='color: blue'>G</span><span style='color: red'>o</span><span style='color: yellow'>o</span><span style='color: blue'>g</span><span style='color: green'>l</span><span style='color: red'>e</span>`;
+                  break;
+                case "GOOG": stock=`<span style='color: blue'>G</span><span style='color: red'>o</span><span style='color: yellow'>o</span><span style='color: blue'>g</span><span style='color: green'>l</span><span style='color: red'>e</span>`;
+                  break;
+                case "fb":   stock=`<span style='color:#3B5998' class="tickerImage">FACEBOOK</span>`;
+                  break;
+                case "FB":   stock=`<span style='color:#3B5998' class="tickerImage">FACEBOOK</span>`;
+                  break;
+                case "msft": stock=`<image src="https://i.postimg.cc/GmjsQkyh/256-256-7ac0ea3f11c425cd8e7e1fdd0a2774e6-microsoft-2.png" width="120px" height="30px" class="tickerImage"/>`;
+                  break;
+                case "MSFT": stock=`<image src="https://i.postimg.cc/GmjsQkyh/256-256-7ac0ea3f11c425cd8e7e1fdd0a2774e6-microsoft-2.png" width="120px" height="30px" class="tickerImage"/>`
+                  break;
+                case "amzn": stock=`<image src="https://i.postimg.cc/rw2p7Kk0/amazon-128-2.png" width="60px" height="30px" class="tickerImage"/>`;
+                  break;
+                case "AMZN": stock=`<image src="https://i.postimg.cc/rw2p7Kk0/amazon-128-2.png" width="60px" height="30px" class="tickerImage"/>`;
+                  break;
+                case "aapl": stock=`<image src="https://i.postimg.cc/GtYCjx9M/apple-logo-128.png" width="30px" height="30px"/>`;
+                  break;
+                case "AAPL": stock=`<image src="https://i.postimg.cc/GtYCjx9M/apple-logo-128.png" width="30px" height="30px"/>`;
+                  break;
+                case "nktr": stock=`<image src="https://i.postimg.cc/J4x1YKPg/David-Jensen18-2.jpg" width="80px" height="30px" class="tickerImage"/>`;
+                  break;
+                case "NKTR": stock=`<image src="https://i.postimg.cc/J4x1YKPg/David-Jensen18-2.jpg" width="80px" height="30px" class="tickerImage"/>`;
+                  break;
+                case "myl": stock=`<image src="https://i.postimg.cc/LsTBncTD/mylan-u-2.jpg" width="80px" height="30px" class="tickerImage"/>`;
+                  break;
+                case "MYL": stock=`<image src="https://i.postimg.cc/LsTBncTD/mylan-u-2.jpg" width="80px" height="30px" class="tickerImage"/>`;
+                  break;
+                case "twtr": stock=`<image src="https://i.postimg.cc/FKH5d4vs/twitter-logo.png" width="30px" height="30px"/>`;
+                  break;
+                case "TWTR": stock=`<image src="https://i.postimg.cc/FKH5d4vs/twitter-logo.png" width="30px" height="30px"/>`;
+                  break;
+                case "tsla": stock=`<span>TESLA</span>`;
+                  break;
+                case "TSLA": stock=`<span>TESLA</span>`;
+                  break;
+                case "pypl": stock=`<span>PAYPAL</span>`;
+                  break;
+                case "PYPL": stock=`<span>PAYPAL</span>`;
+                  break;
+               default         : stock = data.stockData.stock;
+                          }
+         return stock;
+      }
+      });
+   </script>
+  </body>
+</html>
